@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dev",
+      "runtimeExecutable": "/Users/eddie/.nvm/versions/node/v24.14.0/bin/node",
+      "runtimeArgs": ["/Users/eddie/Desktop/離職集點卡/node_modules/.bin/vite"],
+      "port": 5173
+    }
+  ]
+}
