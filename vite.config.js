@@ -5,5 +5,5 @@ import react from '@vitejs/plugin-react'
 // 例如：base: '/resignation-stamp-card/'
 export default defineConfig({
   plugins: [react()],
-  base: '/resignation-stamp-card/',
+  base: '/byebyecard/',
 })
