@@ -70,7 +70,7 @@ export default function AddStampModal({ onAdd, onClose }) {
               e.target.style.height = 'auto'
               e.target.style.height = e.target.scrollHeight + 'px'
             }}
-            maxLength={100}
+            maxLength={1000}
             rows={2}
             className="w-full border-2 border-rage-filled rounded-2xl px-4 py-2 text-sm focus:outline-none focus:border-rage-border bg-rage-slot text-gray-200 placeholder-gray-600 resize-none overflow-hidden"
           />
