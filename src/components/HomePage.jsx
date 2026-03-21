@@ -207,6 +207,10 @@ export default function HomePage({ user, themeId, onThemeChange }) {
 
       </main>
 
+      <footer className="text-center py-6 text-xs text-gray-600">
+        v1.0.0
+      </footer>
+
       {showModal && (
         <AddStampModal
           onAdd={handleAddStamp}
