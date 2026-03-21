@@ -3,13 +3,13 @@ import { auth, googleProvider } from '../firebase'
 
 function isInAppBrowser() {
   const ua = navigator.userAgent || ''
-  return /Line\/|FBAN|FBAV|FB_IAB|FB4A|FBIOS|Instagram|MicroMessenger|LinkedInApp|Twitter/.test(ua)
+  return /Line\/|LineBrowser|FBAN|FBAV|FB_IAB|FB4A|FBIOS|Instagram|MicroMessenger|LinkedInApp|Twitter/i.test(ua)
 }
 
 function getAppName() {
   const ua = navigator.userAgent || ''
-  if (/Line\//i.test(ua)) return 'LINE'
-  if (/FBAN|FBAV|FB_IAB|FB4A|FBIOS/i.test(ua)) return 'Facebook'
+  if (/Line\/|LineBrowser/i.test(ua)) return 'LINE'
+  if (/FBAN|FBAV|FB_IAB|FB4A|FBIOS/i.test(ua)) return 'Facebook / Messenger'
   if (/Instagram/i.test(ua)) return 'Instagram'
   if (/MicroMessenger/i.test(ua)) return 'WeChat'
   if (/LinkedInApp/i.test(ua)) return 'LinkedIn'
@@ -105,6 +105,7 @@ export default function LoginPage() {
         </button>
 
         <p className="text-xs text-gray-600 mt-4">登入即表示你同意用這個 app 發洩上班怒火 😤</p>
+        <p className="text-xs text-gray-800 mt-2 break-all">{navigator.userAgent}</p>
       </div>
     </div>
   )
