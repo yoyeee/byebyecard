@@ -3,13 +3,26 @@ import { auth, googleProvider } from '../firebase'
 
 function isInAppBrowser() {
   const ua = navigator.userAgent || ''
-  return /Line\/|FBAN|FBAV|Instagram|MicroMessenger|LinkedInApp|Twitter/.test(ua)
+  return /Line\/|FBAN|FBAV|FB_IAB|FB4A|FBIOS|Instagram|MicroMessenger|LinkedInApp|Twitter/.test(ua)
+}
+
+function getAppName() {
+  const ua = navigator.userAgent || ''
+  if (/Line\//i.test(ua)) return 'LINE'
+  if (/FBAN|FBAV|FB_IAB|FB4A|FBIOS/i.test(ua)) return 'Facebook'
+  if (/Instagram/i.test(ua)) return 'Instagram'
+  if (/MicroMessenger/i.test(ua)) return 'WeChat'
+  if (/LinkedInApp/i.test(ua)) return 'LinkedIn'
+  if (/Twitter/i.test(ua)) return 'Twitter / X'
+  return 'App'
 }
 
 function InAppWarning() {
   const url = window.location.href
+  const appName = getAppName()
   const copyLink = () => {
-    navigator.clipboard?.writeText(url).then(() => alert('連結已複製！請開啟 Safari 或 Chrome 貼上網址登入 🙏'))
+    navigator.clipboard?.writeText(url)
+      .then(() => alert('連結已複製！請開啟 Safari 或 Chrome 貼上網址登入 🙏'))
       .catch(() => alert(`請手動複製此連結並在瀏覽器開啟：\n${url}`))
   }
   return (
@@ -19,12 +32,12 @@ function InAppWarning() {
         <div className="text-6xl mb-4">🚫</div>
         <h2 className="text-xl font-black text-rage-accent mb-2">無法在此登入</h2>
         <p className="text-gray-400 text-sm mb-6 leading-relaxed">
-          偵測到你正在使用 <span className="text-rage-accent font-bold">LINE / Facebook</span> 等 App 的內建瀏覽器。<br />
+          偵測到你正在使用 <span className="text-rage-accent font-bold">{appName}</span> 的內建瀏覽器。<br />
           Google 登入需要在 <span className="text-white font-bold">Safari 或 Chrome</span> 中開啟。
         </p>
         <p className="text-gray-500 text-xs mb-5 leading-relaxed">
           👆 點右上角選單 → <span className="text-white">「在瀏覽器中開啟」</span><br />
-          或複製連結後自行貼上
+          或點下方按鈕複製連結後自行貼上
         </p>
         <button
           onClick={copyLink}
