@@ -41,6 +41,7 @@ export default function HomePage({ user, themeId, onThemeChange }) {
   const [celebrated, setCelebrated] = useState(false)
   const [showResetConfirm, setShowResetConfirm] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
+  const [showInstallGuide, setShowInstallGuide] = useState(false)
 
   const stampsRef = !isGuest ? collection(db, 'users', user.uid, 'stamps') : null
   const settingsRef = !isGuest ? doc(db, 'users', user.uid, 'meta', 'settings') : null
@@ -240,6 +241,61 @@ export default function HomePage({ user, themeId, onThemeChange }) {
           <div className="px-5 py-4">
             <p className="text-sm text-gray-400 mb-3">🎨 視覺風格</p>
             <ThemeSwitcher themeId={themeId} onChange={onThemeChange} />
+          </div>
+
+          {/* 加到主畫面教學 */}
+          <div className="px-5 py-3">
+            <button
+              onClick={() => setShowInstallGuide(!showInstallGuide)}
+              className="w-full flex items-center justify-between"
+            >
+              <span className="text-sm text-gray-400">📱 加到手機主畫面</span>
+              <span className="text-gray-600 text-xs">{showInstallGuide ? '▲' : '▼'}</span>
+            </button>
+
+            {showInstallGuide && (
+              <div className="mt-3 space-y-4 animate-fadeIn">
+                {/* iOS */}
+                <div>
+                  <p className="text-xs font-bold text-gray-300 mb-2">🍎 iPhone / iPad（Safari）</p>
+                  <ol className="space-y-1.5">
+                    {[
+                      '用 Safari 開啟本網站',
+                      '點底部工具列的 分享 按鈕（□↑）',
+                      '滑動選單，點「加入主畫面」',
+                      '點右上角「新增」完成',
+                    ].map((step, i) => (
+                      <li key={i} className="flex items-start gap-2 text-xs text-gray-500">
+                        <span className="text-rage-accent font-black shrink-0">{i + 1}.</span>
+                        <span>{step}</span>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+
+                <div className="h-px bg-rage-filled" />
+
+                {/* Android */}
+                <div>
+                  <p className="text-xs font-bold text-gray-300 mb-2">🤖 Android（Chrome）</p>
+                  <ol className="space-y-1.5">
+                    {[
+                      '用 Chrome 開啟本網站',
+                      '點右上角 ⋮ 選單',
+                      '點「新增至主畫面」',
+                      '點「新增」完成',
+                    ].map((step, i) => (
+                      <li key={i} className="flex items-start gap-2 text-xs text-gray-500">
+                        <span className="text-rage-accent font-black shrink-0">{i + 1}.</span>
+                        <span>{step}</span>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+
+                <p className="text-xs text-gray-600 text-center">安裝後可離線瀏覽，像 app 一樣使用 ✨</p>
+              </div>
+            )}
           </div>
 
           {/* 清除按鈕 */}
