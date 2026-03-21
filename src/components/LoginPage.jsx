@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { signInWithPopup } from 'firebase/auth'
 import { auth, googleProvider } from '../firebase'
 
@@ -20,11 +21,37 @@ function getAppName() {
 function InAppWarning() {
   const url = window.location.href
   const appName = getAppName()
+  const [copied, setCopied] = useState(false)
+
   const copyLink = () => {
-    navigator.clipboard?.writeText(url)
-      .then(() => alert('連結已複製！請開啟 Safari 或 Chrome 貼上網址登入 🙏'))
-      .catch(() => alert(`請手動複製此連結並在瀏覽器開啟：\n${url}`))
+    // 先嘗試 clipboard API
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(url)
+        .then(() => setCopied(true))
+        .catch(() => fallbackCopy())
+    } else {
+      fallbackCopy()
+    }
   }
+
+  const fallbackCopy = () => {
+    // 用隱藏 textarea + execCommand 作為備用
+    try {
+      const el = document.createElement('textarea')
+      el.value = url
+      el.style.cssText = 'position:fixed;opacity:0;pointer-events:none'
+      document.body.appendChild(el)
+      el.focus()
+      el.select()
+      document.execCommand('copy')
+      document.body.removeChild(el)
+      setCopied(true)
+    } catch {
+      // 最後備援：用 prompt 讓使用者手動複製
+      window.prompt('請長按並複製以下連結，貼到 Safari 或 Chrome 開啟：', url)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-rage-bg flex items-center justify-center p-4">
       <div className="bg-rage-card border-2 rounded-3xl p-8 w-full max-w-sm text-center animate-fadeIn"
@@ -36,15 +63,14 @@ function InAppWarning() {
           Google 登入需要在 <span className="text-white font-bold">Safari 或 Chrome</span> 中開啟。
         </p>
         <p className="text-gray-500 text-xs mb-5 leading-relaxed">
-          👆 點右上角選單 → <span className="text-white">「在瀏覽器中開啟」</span><br />
-          或點下方按鈕複製連結後自行貼上
+          點下方按鈕複製連結，再到 <span className="text-white">Safari 或 Chrome</span> 貼上網址即可登入 🙏
         </p>
         <button
           onClick={copyLink}
           className="w-full py-3 rounded-2xl font-black text-white transition-all"
-          style={{ background: 'linear-gradient(135deg, #8B0000, #CC0000)', boxShadow: '0 4px 15px rgba(139,0,0,0.5)' }}
+          style={{ background: copied ? 'linear-gradient(135deg, #1a5c1a, #2d8a2d)' : 'linear-gradient(135deg, #8B0000, #CC0000)', boxShadow: '0 4px 15px rgba(139,0,0,0.5)' }}
         >
-          複製連結 🔗
+          {copied ? '已複製！去瀏覽器貼上吧 ✅' : '複製連結 🔗'}
         </button>
       </div>
     </div>
@@ -105,7 +131,6 @@ export default function LoginPage() {
         </button>
 
         <p className="text-xs text-gray-600 mt-4">登入即表示你同意用這個 app 發洩上班怒火 😤</p>
-        <p className="text-xs text-gray-800 mt-2 break-all">{navigator.userAgent}</p>
       </div>
     </div>
   )
