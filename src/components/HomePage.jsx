@@ -20,6 +20,7 @@ export default function HomePage({ user, themeId, onThemeChange }) {
   const [showCelebration, setShowCelebration] = useState(false)
   const [celebrated, setCelebrated] = useState(false)
   const [showResetConfirm, setShowResetConfirm] = useState(false)
+  const [showSettings, setShowSettings] = useState(false)
 
   const stampsRef = collection(db, 'users', user.uid, 'stamps')
   const settingsRef = doc(db, 'users', user.uid, 'meta', 'settings')
@@ -130,11 +131,16 @@ export default function HomePage({ user, themeId, onThemeChange }) {
         {/* 設定區 */}
         <div className="bg-rage-card rounded-2xl border border-rage-filled divide-y divide-rage-filled">
 
-          {/* 標題 */}
-          <div className="px-5 py-3">
+          {/* 標題（可收折） */}
+          <button
+            onClick={() => { setShowSettings(!showSettings); setShowResetConfirm(false) }}
+            className="w-full px-5 py-3 flex items-center justify-between hover:bg-rage-filled transition-colors rounded-t-2xl"
+          >
             <span className="text-sm font-bold text-gray-400">⚙️ 設定</span>
-          </div>
+            <span className="text-gray-600 text-xs">{showSettings ? '▲' : '▼'}</span>
+          </button>
 
+          {showSettings && <>
           {/* 目標格數 */}
           <div className="px-5 py-3">
             <div className="flex items-center justify-between">
@@ -196,6 +202,7 @@ export default function HomePage({ user, themeId, onThemeChange }) {
               </button>
             )
           )}
+          </>}
         </div>
 
       </main>
