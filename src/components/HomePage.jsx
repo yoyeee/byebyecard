@@ -19,6 +19,7 @@ export default function HomePage({ user, themeId, onThemeChange }) {
   const [showModal, setShowModal] = useState(false)
   const [showCelebration, setShowCelebration] = useState(false)
   const [celebrated, setCelebrated] = useState(false)
+  const [showResetConfirm, setShowResetConfirm] = useState(false)
 
   const stampsRef = collection(db, 'users', user.uid, 'stamps')
   const settingsRef = doc(db, 'users', user.uid, 'meta', 'settings')
@@ -164,12 +165,36 @@ export default function HomePage({ user, themeId, onThemeChange }) {
 
           {/* 清除按鈕 */}
           {stamps.length > 0 && (
-            <button
-              onClick={handleReset}
-              className="w-full text-xs text-gray-600 hover:text-rage-accent py-3 transition-colors"
-            >
-              🗑️ 清除所有集點，重新忍耐
-            </button>
+            showResetConfirm ? (
+              <div className="px-5 py-4 space-y-3 animate-fadeIn">
+                <p className="text-sm text-center text-gray-400">
+                  確定要清除全部 <span className="text-rage-accent font-black">{stamps.length}</span> 點嗎？<br />
+                  <span className="text-xs text-gray-600">刪除後無法復原</span>
+                </p>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setShowResetConfirm(false)}
+                    className="flex-1 py-2 rounded-xl border-2 border-rage-filled text-gray-500 text-sm font-medium hover:border-rage-border transition-colors"
+                  >
+                    取消
+                  </button>
+                  <button
+                    onClick={() => { handleReset(); setShowResetConfirm(false) }}
+                    className="flex-1 py-2 rounded-xl text-white text-sm font-black transition-opacity hover:opacity-90"
+                    style={{ background: 'linear-gradient(135deg, #8B0000, #CC0000)' }}
+                  >
+                    確定清除
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <button
+                onClick={() => setShowResetConfirm(true)}
+                className="w-full text-xs text-gray-600 hover:text-rage-accent py-3 transition-colors"
+              >
+                🗑️ 清除所有集點，重新忍耐
+              </button>
+            )
           )}
         </div>
 
