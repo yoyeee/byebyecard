@@ -11,6 +11,23 @@
     <title>離職集點卡 🎯</title>
   </head>
   <body>
+    <!-- 防主題閃爍：React 載入前先套用 CSS 變數 -->
+    <script>
+      (function () {
+        var themes = {
+          rage:    { '--t-bg':'#0d0000','--t-card':'#1a0000','--t-slot':'#110000','--t-filled':'#2a0000','--t-border':'#8B0000','--t-accent':'#FF3333','--t-muted':'#CC4444' },
+          warm:    { '--t-bg':'#fff8f4','--t-card':'#ffffff','--t-slot':'#fef0e6','--t-filled':'#fde8d8','--t-border':'#f4a261','--t-accent':'#e76f51','--t-muted':'#f4a261' },
+          minimal: { '--t-bg':'#f5f5f5','--t-card':'#ffffff','--t-slot':'#eeeeee','--t-filled':'#e0e0e0','--t-border':'#bdbdbd','--t-accent':'#424242','--t-muted':'#757575' },
+          night:   { '--t-bg':'#0a0e1a','--t-card':'#111827','--t-slot':'#0d1424','--t-filled':'#1e2d4a','--t-border':'#2563eb','--t-accent':'#60a5fa','--t-muted':'#93c5fd' },
+          matcha:  { '--t-bg':'#0d1a0d','--t-card':'#0f2a0f','--t-slot':'#0a150a','--t-filled':'#1a3a1a','--t-border':'#3a7a3a','--t-accent':'#5acc5a','--t-muted':'#4aaa4a' },
+        }
+        var id = localStorage.getItem('theme') || 'rage'
+        var vars = themes[id] || themes.rage
+        var root = document.documentElement
+        Object.keys(vars).forEach(function (k) { root.style.setProperty(k, vars[k]) })
+        root.setAttribute('data-theme', id)
+      })()
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

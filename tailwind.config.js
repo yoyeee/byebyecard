@@ -8,13 +8,13 @@ export default {
       },
       colors: {
         rage: {
-          bg:     '#0d0000',
-          card:   '#1a0000',
-          slot:   '#110000',
-          filled: '#2a0000',
-          border: '#8B0000',
-          accent: '#FF3333',
-          muted:  '#CC4444',
+          bg:     'var(--t-bg)',
+          card:   'var(--t-card)',
+          slot:   'var(--t-slot)',
+          filled: 'var(--t-filled)',
+          border: 'var(--t-border)',
+          accent: 'var(--t-accent)',
+          muted:  'var(--t-muted)',
         },
       },
       keyframes: {

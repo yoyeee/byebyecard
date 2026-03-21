@@ -11,8 +11,9 @@ import StampCard from './StampCard'
 import AddStampModal from './AddStampModal'
 import HistoryList from './HistoryList'
 import CelebrationModal from './CelebrationModal'
+import ThemeSwitcher from './ThemeSwitcher'
 
-export default function HomePage({ user }) {
+export default function HomePage({ user, themeId, onThemeChange }) {
   const [stamps, setStamps] = useState([])
   const [goal, setGoal] = useState(DEFAULT_GOAL)
   const [showModal, setShowModal] = useState(false)
@@ -159,6 +160,10 @@ export default function HomePage({ user }) {
             </button>
           )}
         </div>
+
+        {/* 視覺風格 */}
+        <ThemeSwitcher themeId={themeId} onChange={onThemeChange} />
+
       </main>
 
       {showModal && (

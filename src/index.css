@@ -2,7 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Default theme vars (rage) — prevents flash on first load ── */
+:root {
+  --t-bg:     #0d0000;
+  --t-card:   #1a0000;
+  --t-slot:   #110000;
+  --t-filled: #2a0000;
+  --t-border: #8B0000;
+  --t-accent: #FF3333;
+  --t-muted:  #CC4444;
+}
+
 body {
-  background-color: #0d0000;
+  background-color: var(--t-bg);
   min-height: 100vh;
 }
+
+/* ── Light theme: 溫馨風 ── */
+[data-theme="warm"] .text-gray-200 { color: #5a2a1a; }
+[data-theme="warm"] .text-gray-300 { color: #7a4a3a; }
+[data-theme="warm"] .text-gray-400 { color: #8a5a4a; }
+[data-theme="warm"] .text-gray-500 { color: #a07060; }
+[data-theme="warm"] .text-gray-600 { color: #b48070; }
+[data-theme="warm"] .text-gray-700 { color: #c49080; }
+[data-theme="warm"] .text-white    { color: #3d1a0f; }
+[data-theme="warm"] .placeholder-gray-600::placeholder { color: #c4a090; }
+
+/* ── Light theme: 簡約風 ── */
+[data-theme="minimal"] .text-gray-200 { color: #1f2937; }
+[data-theme="minimal"] .text-gray-300 { color: #374151; }
+[data-theme="minimal"] .text-gray-400 { color: #4b5563; }
+[data-theme="minimal"] .text-gray-500 { color: #6b7280; }
+[data-theme="minimal"] .text-gray-600 { color: #9ca3af; }
+[data-theme="minimal"] .text-gray-700 { color: #bdbdbd; }
+[data-theme="minimal"] .text-white    { color: #111827; }
+[data-theme="minimal"] .placeholder-gray-600::placeholder { color: #adb5bd; }
